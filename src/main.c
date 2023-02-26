@@ -4,6 +4,7 @@
 #include "SDL_image.h"
 #include <stdio.h>
 #include <SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
@@ -57,7 +58,7 @@ int main(int argc, char* argv[]) {
     (void) argv;
 
     // Initialize SDL2 and create a window and renderer
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO| SDL_INIT_AUDIO);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
 
@@ -107,15 +108,24 @@ int main(int argc, char* argv[]) {
     int character_vy = 0;
     int is_jumping = 0;
     int is_dead = 0;
+      Mix_Init(MIX_INIT_MP3);
+    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
     // Set the position of the obstacle
     int obstacle_x = 290;
     int obstacle_y = SCREEN_HEIGHT - 110;
+        // Load background music and sound effect
+    Mix_Music* background_music = Mix_LoadMUS("background_music.mp3");
+    Mix_Chunk* jump_sound = Mix_LoadWAV("jump_sound.wav");
+
+    // Play background music on loop
+    Mix_PlayMusic(background_music, -1);
 
     // Run the game loop
     int quit = 0;
     while (!quit) {
         // Handle events
+
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -125,6 +135,7 @@ int main(int argc, char* argv[]) {
                     // Start jumping
                     character_vy = JUMP_FORCE;
                     is_jumping = 1;
+                    Mix_PlayChannel(-1, jump_sound, 0);
                 }
             }
         }
@@ -215,6 +226,9 @@ int main(int argc, char* argv[]) {
     }
 
     // Clean up and exit
+    Mix_FreeChunk(jump_sound);
+    Mix_FreeMusic(background_music);
+    Mix_CloseAudio();
     SDL_DestroyTexture(background_texture);
     SDL_DestroyTexture(character_texture);
     SDL_DestroyTexture(obstacle_texture);
