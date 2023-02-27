@@ -4,7 +4,7 @@
 #include "SDL_image.h"
 #include <stdio.h>
 #include <SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
+#include <SDL_mixer.h>
 
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
