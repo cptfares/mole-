@@ -2,8 +2,10 @@
 #include "SDL_image.h"
 #include <stdio.h>
 #include <SDL_ttf.h>
-#include <SDL_mixer.h> #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
-#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y)) #define MAX_BULLETS 1000
+#include <SDL_mixer.h>
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y)) 
+#define MAX_BULLETS 1000
 #define FONT_PATH   "assets/pacifico/Pacifico.ttf"   
 const int SCREEN_WIDTH = 700;
 const int SCREEN_HEIGHT = 400; const int GRAVITY = 2;
